@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета | Scuderia Ferrari</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: #A5A5A5;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #A6051A;
+            padding-bottom: 15px;
+        }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+        select[multiple] { height: 150px; }
+        .checkbox-group { display: flex; align-items: center; gap: 10px; }
+        .checkbox-group input { width: auto; }
+        button {
+            background: #A6051A;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        button:hover { opacity: 0.9; }
+        small { color: #666; display: block; margin-top: 5px; }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .result.success { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
+        .result.error { background: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; }
+        .auth-box {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        .auth-box input {
+            width: 48%;
+            display: inline-block;
+            margin-right: 4%;
+            margin-bottom: 0;
+        }
+        .auth-box button {
+            width: 48%;
+            margin-top: 0;
+            background: #A6051A;
+        }
+        .edit-mode { background: #e8f0fe; padding: 10px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
+        .back-link { display: block; text-align: center; margin-top: 20px; color: #800020; text-decoration: none; }
+        .admin-link { text-align: center; margin-top: 15px; }
+        .admin-link a { color: #800020; text-decoration: none; font-weight: bold; }
+        .admin-link a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Анкета трудоустройства</h1>
+
+    <div class="auth-box" id="authBox">
+        <input type="text" id="loginInput" placeholder="Логин" autocomplete="off">
+        <input type="password" id="passwordInput" placeholder="Пароль">
+        <button id="loginBtn">Войти</button>
+        <button id="logoutBtn" style="display:none; background:#a00030;">Выйти</button>
+    </div>
+
+    <div id="editMode" class="edit-mode" style="display:none;">
+        Вы вошли. Можете отредактировать свои данные.
+    </div>
+
+    <form id="anketa-form">
+        <div class="form-group">
+            <label>Имя *</label>
+            <input type="text" name="full_name" required placeholder="Введите ваше полное имя">
+        </div>
+        <div class="form-group">
+            <label>Телефон *</label>
+            <input type="tel" name="phone" required placeholder="+7 (999) 123-45-67">
+        </div>
+        <div class="form-group">
+            <label>Эл. почта *</label>
+            <input type="email" name="email" required placeholder="example@mail.com">
+        </div>
+        <div class="form-group">
+            <label>Дата рождения *</label>
+            <input type="date" name="birth_date" required>
+        </div>
+        <div class="form-group">
+            <label>Сфера трудоустройства *</label>
+            <select name="work_area" required>
+                <option value="office">Офис</option>
+                <option value="racing">Гоночная команда</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Желаемые должности *</label>
+            <select name="positions" multiple size="8" required>
+           <option value="1">Механик</option>
+    <option value="2">Инженер</option>
+    <option value="3">Пилот</option>
+    <option value="4">Аналитик</option>
+    <option value="5">PR-менеджер</option>
+    <option value="6">Стратег</option>
+    <option value="7">Координатор</option>
+    <option value="8">Руководитель команды</option>
+    <option value="9">Маркетолог</option>
+    <option value="10">Юрист</option>
+    <option value="11">HR-менеджер</option>
+ 		</select>
+            <small>Зажмите Ctrl (Cmd на Mac) для выбора нескольких</small>
+        </div>
+        <div class="form-group">
+            <label>Ваше сообщение *</label>
+            <textarea name="bio" rows="4" required placeholder="Расскажите о себе..." maxlength="5000"></textarea>
+        </div>
+        <div class="form-group checkbox-group">
+            <input type="checkbox" name="contract" required>
+            <label>Я даю согласие на обработку моих персональных данных *</label>
+        </div>
+        <button type="submit" id="submitBtn">Отправить заявку</button>
+    </form>
+    <div id="result" class="result"></div>
+    <a href="/" class="back-link">Вернуться на главную</a>
+    <div class="admin-link">
+        <a href="/admin.html">Админ-панель</a>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById('anketa-form');
+    const resultDiv = document.getElementById('result');
+    const loginInput = document.getElementById('loginInput');
+    const passwordInput = document.getElementById('passwordInput');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const editModeDiv = document.getElementById('editMode');
+    const submitBtn = document.getElementById('submitBtn');
+
+    let currentUserId = null;
+    let currentAppId = null;
+
+    function showResult(type, message) {
+        resultDiv.className = `result ${type}`;
+        resultDiv.innerHTML = message.replace(/\n/g, '<br>');
+        resultDiv.style.display = 'block';
+    }
+
+    async function loadUserData() {
+        try {
+            const resp = await fetch('/api/user', { headers: { 'Content-Type': 'application/json' } });
+            if (resp.ok) {
+                const data = await resp.json();
+                currentUserId = data.user_id;
+                currentAppId = data.app_id;
+                document.querySelector('[name="full_name"]').value = data.full_name || '';
+                document.querySelector('[name="phone"]').value = data.phone || '';
+                document.querySelector('[name="email"]').value = data.email || '';
+                document.querySelector('[name="birth_date"]').value = data.birth_date || '';
+                document.querySelector('[name="work_area"]').value = data.work_area || 'office';
+                const posSelect = document.querySelector('[name="positions"]');
+                for (let opt of posSelect.options) opt.selected = false;
+                if (data.positions && Array.isArray(data.positions)) {
+                    for (let opt of posSelect.options) {
+                        if (data.positions.includes(parseInt(opt.value))) opt.selected = true;
+                    }
+                }
+                document.querySelector('[name="bio"]').value = data.bio || '';
+                document.querySelector('[name="contract"]').checked = !!data.contract_accepted;
+                return true;
+            } else if (resp.status === 401) {
+                currentUserId = null;
+                currentAppId = null;
+            }
+        } catch(e) { console.error(e); }
+        return false;
+    }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+        await loadUserData();
+        if (currentUserId && currentAppId) {
+            loginBtn.style.display = 'none';
+            logoutBtn.style.display = 'inline-block';
+            editModeDiv.style.display = 'block';
+            submitBtn.textContent = 'Обновить данные';
+            showResult('success', 'Вы авторизованы. Можете отредактировать анкету.');
+        } else if (currentUserId && !currentAppId) {
+            loginBtn.style.display = 'none';
+            logoutBtn.style.display = 'inline-block';
+            editModeDiv.style.display = 'block';
+            submitBtn.textContent = 'Отправить заявку';
+            showResult('error', 'Вы авторизованы, но заявка не найдена. Заполните анкету для создания.');
+        }
+    });
+
+    loginBtn.onclick = async () => {
+        const login = loginInput.value.trim();
+        const password = passwordInput.value.trim();
+        if (!login || !password) {
+            showResult('error', 'Введите логин и пароль');
+            return;
+        }
+        try {
+            const resp = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ login, password })
+            });
+            if (resp.ok) {
+                showResult('success', 'Вход выполнен, страница будет перезагружена');
+                setTimeout(() => location.reload(), 800);
+            } else {
+                showResult('error', 'Неверный логин или пароль');
+            }
+        } catch(e) {
+            showResult('error', 'Ошибка сети');
+        }
+    };
+
+    logoutBtn.onclick = async () => {
+        await fetch('/api/logout', { method: 'POST' });
+        loginBtn.style.display = 'inline-block';
+        logoutBtn.style.display = 'none';
+        editModeDiv.style.display = 'none';
+        submitBtn.textContent = 'Отправить заявку';
+        form.reset();
+        currentUserId = null;
+        currentAppId = null;
+        showResult('success', 'Выход выполнен');
+    };
+
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        resultDiv.style.display = 'none';
+
+        const formData = new FormData(form);
+        const data = {
+            full_name: formData.get('full_name'),
+            phone: formData.get('phone'),
+            email: formData.get('email'),
+            birth_date: formData.get('birth_date'),
+            work_area: formData.get('work_area'),
+            positions: formData.getAll('positions'),
+            bio: formData.get('bio'),
+            contract: formData.has('contract') ? 'on' : null
+        };
+
+        if (currentUserId && currentAppId) {
+            try {
+                const resp = await fetch(`/api/entry/${currentAppId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (!resp.ok) {
+                    let err = await resp.json();
+                    let msg = err.errors ? Object.values(err.errors).join('\n') : (err.error || 'Ошибка');
+                    showResult('error', msg);
+                    return;
+                }
+                showResult('success', 'Данные обновлены!');
+                await loadUserData();
+            } catch(err) {
+                showResult('error', 'Ошибка сети');
+            }
+            return;
+        }
+
+        try {
+            const resp = await fetch('/api/entry', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (!resp.ok) {
+                let err = await resp.json();
+                let msg = err.errors ? Object.values(err.errors).join('\n') : (err.error || 'Ошибка');
+                showResult('error', msg);
+                return;
+            }
+
+            const result = await resp.json();
+            if (result.status === 'created') {
+                let msg = `ЗАЯВКА ОТПРАВЛЕНА!\n\nЛогин: ${result.login}\n`;
+                if (result.password) msg += `Пароль: ${result.password}\n`;
+                msg += `\nВы автоматически авторизованы. Можете редактировать анкету.`;
+                showResult('success', msg);
+                form.reset();
+                await loadUserData();
+                if (currentUserId) {
+                    loginBtn.style.display = 'none';
+                    logoutBtn.style.display = 'inline-block';
+                    editModeDiv.style.display = 'block';
+                    submitBtn.textContent = 'Обновить данные';
+                }
+            }
+        } catch (err) {
+            showResult('error', 'Ошибка сети');
+        }
+    };
+</script>
+</body>
+</html>
