@@ -1,0 +1,130 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"/><link rel="icon" href="/favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><meta name="description" content="Официальный сайт Scuderia Ferrari"/><link rel="apple-touch-icon" href="/logo192.png"/><link rel="manifest" href="/manifest.json"/><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet"><title>Scuderia Ferrari</title><script defer="defer" src="/static/js/main.fc9fd147.js"></script><link href="/static/css/main.21a6f7a3.css" rel="stylesheet"><link href="/static/css/tracks-fix.css" rel="stylesheet"><script src="/feedback.js"></script></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div><script>
+// Жёлтая кнопка на анкету
+(function() {
+    function fixButton() {
+        const btn = document.querySelector('.contact-button-yellow');
+        if (btn) {
+            btn.removeAttribute('onclick');
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+            newBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                window.location.href = '/anketa.html';
+            });
+            return;
+        }
+        setTimeout(fixButton, 200);
+    }
+    fixButton();
+})();
+
+// Видеофон на первом слайде (исправленная версия, контент не перекрывается)
+(function() {
+    setTimeout(() => {
+        const heroSection = document.querySelector('.hero, .main-banner, .intro-section, .content-on-video, [class*="hero"], [class*="Hero"]');
+        if (heroSection) {
+            heroSection.style.position = 'relative';
+            heroSection.style.overflow = 'hidden';
+            heroSection.style.backgroundColor = 'transparent';
+            
+            const video = document.createElement('video');
+            video.autoplay = true;
+            video.muted = true;
+            video.loop = true;
+            video.playsInline = true;
+            video.style.position = 'absolute';
+            video.style.top = '0';
+            video.style.left = '0';
+            video.style.width = '100%';
+            video.style.height = '100%';
+            video.style.objectFit = 'cover';
+            video.style.zIndex = '0';
+            
+            const source = document.createElement('source');
+            source.src = '/static/media/video.mp4';
+            source.type = 'video/mp4';
+            video.appendChild(source);
+            
+            heroSection.insertBefore(video, heroSection.firstChild);
+            
+            // Полупрозрачный слой для читаемости текста
+            const overlay = document.createElement('div');
+            overlay.style.position = 'absolute';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.backgroundColor = 'rgba(0,0,0,0.3)';
+            overlay.style.zIndex = '1';
+            heroSection.insertBefore(overlay, heroSection.firstChild.nextSibling);
+            
+            // Поднимаем всё содержимое выше видео и оверлея
+            for (let child of heroSection.children) {
+                if (child !== video && child !== overlay) {
+                    child.style.position = 'relative';
+                    child.style.zIndex = '2';
+                }
+            }
+            
+            // Поднимаем навигацию (если она вне heroSection)
+            const nav = document.querySelector('nav, .header, .navbar, .menu, [class*="nav"]');
+            if (nav) {
+                nav.style.position = 'relative';
+                nav.style.zIndex = '3';
+            }
+            
+            console.log('✅ Видеофон добавлен, контент поднят');
+        } else {
+            console.log('❌ Первый слайд не найден');
+        }
+    }, 1500);
+})();
+
+// Навигация (плавная прокрутка к секциям)
+(function() {
+    function setupNavigation() {
+        const selectors = ['a', 'button', '.nav-link', '.menu-item', '.nav-item', '[role="button"]', '.header-nav a', '.menu a'];
+        let navElements = [];
+        for (let sel of selectors) {
+            navElements = [...navElements, ...document.querySelectorAll(sel)];
+        }
+        navElements = [...new Set(navElements)];
+        
+        const sectionsMap = {
+            'ГЛАВНАЯ': 'hero',
+            'ДОСТИЖЕНИЯ': 'achievements',
+            'БОЛИД SF-25': 'car',
+            'БОЛИД': 'car',
+            'ПИЛОТЫ': 'drivers',
+            'ТРАССЫ': 'tracks',
+            'НОВОСТИ': 'news',
+            'ПАРТНЁРЫ': 'partners',
+            'Q&A': 'faq',
+            'КОНТАКТЫ': 'contacts'
+        };
+        
+        let anyFixed = false;
+        
+        for (let el of navElements) {
+            const text = (el.innerText || '').trim().toUpperCase();
+            const target = sectionsMap[text];
+            if (target) {
+                el.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    let section = document.getElementById(target);
+                    if (!section) section = document.querySelector(`.${target}, [class*="${target}"]`);
+                    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    anyFixed = true;
+                });
+            }
+        }
+        
+        if (anyFixed) console.log('✅ Навигация настроена');
+        else setTimeout(setupNavigation, 1000);
+    }
+    setTimeout(setupNavigation, 1500);
+    window.addEventListener('load', () => setTimeout(setupNavigation, 500));
+})();
+</script></body></html>

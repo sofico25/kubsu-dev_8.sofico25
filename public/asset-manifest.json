@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/angelinaliverova06-eng/angelinaliverova06-eng-web-pr.github.io/static/css/main.21a6f7a3.css",
+    "main.js": "/angelinaliverova06-eng/angelinaliverova06-eng-web-pr.github.io/static/js/main.fc9fd147.js",
+    "static/media/lines-wallaper.png": "/angelinaliverova06-eng/angelinaliverova06-eng-web-pr.github.io/static/media/lines-wallaper.5f9bf503f4ab4ebe16c2.png",
+    "static/media/TT_Gentlemens_Trial_Regular.woff": "/angelinaliverova06-eng/angelinaliverova06-eng-web-pr.github.io/static/media/TT_Gentlemens_Trial_Regular.3c816fa633d89a59a116.woff",
+    "static/media/numbres-wallaper.png": "/angelinaliverova06-eng/angelinaliverova06-eng-web-pr.github.io/static/media/numbres-wallaper.f9dfbbf9384c8a379a79.png",
+    "static/media/Gothic60-Regular.woff": "/angelinaliverova06-eng/angelinaliverova06-eng-web-pr.github.io/static/media/Gothic60-Regular.0c98ac8cc13153673cfc.woff",
+    "index.html": "/angelinaliverova06-eng/angelinaliverova06-eng-web-pr.github.io/index.html",
+    "main.21a6f7a3.css.map": "/angelinaliverova06-eng/angelinaliverova06-eng-web-pr.github.io/static/css/main.21a6f7a3.css.map",
+    "main.fc9fd147.js.map": "/angelinaliverova06-eng/angelinaliverova06-eng-web-pr.github.io/static/js/main.fc9fd147.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.21a6f7a3.css",
+    "static/js/main.fc9fd147.js"
+  ]
+}

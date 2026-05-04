@@ -1,0 +1,115 @@
+.track-card:nth-child(1) .track-image-space {
+    background-image: url('/static/media/tracks/Австралия, альберт парк-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(2) .track-image-space {
+    background-image: url('/static/media/tracks/Арзейбаджан-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(3) .track-image-space {
+    background-image: url('/static/media/tracks/Бахрейн-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(4) .track-image-space {
+    background-image: url('/static/media/tracks/Великобритая-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(5) .track-image-space {
+    background-image: url('/static/media/tracks/Имола-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(6) .track-image-space {
+    background-image: url('/static/media/tracks/Катар-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(7) .track-image-space {
+    background-image: url('/static/media/tracks/Китай, Шанхайскому международному автодрому-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(8) .track-image-space {
+    background-image: url('/static/media/tracks/Лас Вегас-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(9) .track-image-space {
+    background-image: url('/static/media/tracks/Майами-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(10) .track-image-space {
+    background-image: url('/static/media/tracks/Монако-Photoroom — копия.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(11) .track-image-space {
+    background-image: url('/static/media/tracks/Нидерланды-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(12) .track-image-space {
+    background-image: url('/static/media/tracks/Сан-пауло-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(13) .track-image-space {
+    background-image: url('/static/media/tracks/Саудовская Аравия-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(14) .track-image-space {
+    background-image: url('/static/media/tracks/Сингапур-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(15) .track-image-space {
+    background-image: url('/static/media/tracks/Япония, международная гоночная трасса Сузука-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(16) .track-image-space {
+    background-image: url('/static/media/tracks/австрия-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(17) .track-image-space {
+    background-image: url('/static/media/tracks/бельгия-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(18) .track-image-space {
+    background-image: url('/static/media/tracks/венгрия-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(19) .track-image-space {
+    background-image: url('/static/media/tracks/испания-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(20) .track-image-space {
+    background-image: url('/static/media/tracks/канада-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(21) .track-image-space {
+    background-image: url('/static/media/tracks/мексика-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(22) .track-image-space {
+    background-image: url('/static/media/tracks/монца-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}
+.track-card:nth-child(23) .track-image-space {
+    background-image: url('/static/media/tracks/техас-Photoroom.png');
+    background-size: cover;
+    background-position: center;
+}

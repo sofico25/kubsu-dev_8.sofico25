@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: #A5A5A5;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            padding: 30px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #A6051A;
+            padding-bottom: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            display: block;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background: #A6051A;
+            color: white;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        .auth-box {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .auth-box input {
+            padding: 10px;
+            margin: 0 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .auth-box button {
+            background: #A6051A;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .auth-box button:hover { opacity: 0.9; }
+        .logout-btn { background: #a00030; margin-left: 10px; }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #A6051A;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Админ-панель</h1>
+
+    <div class="auth-box" id="authBox">
+        <input type="text" id="adminLogin" placeholder="Логин" autocomplete="off">
+        <input type="password" id="adminPassword" placeholder="Пароль">
+        <button id="loginAdminBtn">Войти</button>
+        <button id="logoutAdminBtn" style="display:none; background:#a00030;">Выйти</button>
+    </div>
+
+    <div id="adminPanel" style="display:none;">
+        <div id="applicationsTable"></div>
+    </div>
+
+    <a href="/" class="back-link">← Вернуться на главную</a>
+</div>
+
+<script>
+    const adminLogin = document.getElementById('adminLogin');
+    const adminPassword = document.getElementById('adminPassword');
+    const loginBtn = document.getElementById('loginAdminBtn');
+    const logoutBtn = document.getElementById('logoutAdminBtn');
+    const adminPanel = document.getElementById('adminPanel');
+    const appsDiv = document.getElementById('applicationsTable');
+
+    function showResult(message, isError = false) {
+        const div = document.createElement('div');
+        div.style.position = 'fixed';
+        div.style.bottom = '20px';
+        div.style.right = '20px';
+        div.style.backgroundColor = isError ? '#f8d7da' : '#d4edda';
+        div.style.color = isError ? '#721c24' : '#155724';
+        div.style.padding = '12px 20px';
+        div.style.borderRadius = '8px';
+        div.style.borderLeft = `4px solid ${isError ? '#dc3545' : '#28a745'}`;
+        div.style.zIndex = '1000';
+        div.innerHTML = message;
+        document.body.appendChild(div);
+        setTimeout(() => div.remove(), 3000);
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    async function loadAdminData() {
+        try {
+            const resp = await fetch('/api/admin/applications', {
+                headers: {
+                    'Authorization': 'Basic ' + btoa(`${adminLogin.value}:${adminPassword.value}`)
+                }
+            });
+            if (resp.ok) {
+                const apps = await resp.json();
+                
+                let tableHtml = `<table><thead><tr>
+                    <th>ID</th><th>Пользователь</th><th>ФИО</th><th>Телефон</th>
+                    <th>Email</th><th>Дата рождения</th><th>Сфера</th>
+                    <th>Должности</th><th>Сообщение</th><th>Дата создания</th>
+                </tr></thead><tbody>`;
+                
+                apps.forEach(app => {
+                    let positions = '';
+                    if (app.positions) {
+                        const posNames = app.positions.map(pos => {
+                            switch(parseInt(pos)) {
+case 1: return 'Механик';
+    case 2: return 'Инженер';
+    case 3: return 'Пилот';
+    case 4: return 'Аналитик';
+    case 5: return 'PR-менеджер';
+    case 6: return 'Стратег';
+    case 7: return 'Координатор';
+    case 8: return 'Руководитель команды';
+    case 9: return 'Маркетолог';
+    case 10: return 'Юрист';
+    case 11: return 'HR-менеджер';
+    default: return pos;                            }
+                        });
+                        positions = posNames.join(', ');
+                    }
+                    tableHtml += `<tr>
+                        <td>${app.id}</td>
+                        <td>${app.user_login || '—'}</td>
+                        <td>${escapeHtml(app.full_name || '')}</td>
+                        <td>${escapeHtml(app.phone || '')}</td>
+                        <td>${escapeHtml(app.email || '')}</td>
+                        <td>${app.birth_date || ''}</td>
+                        <td>${app.work_area === 'racing' ? 'Гоночная команда' : 'Офис'}</td>
+                        <td>${positions}</td>
+                        <td>${escapeHtml((app.bio || '').substring(0, 100))}</td>
+                        <td>${app.created_at || ''}</td>
+                    </tr>`;
+                });
+                tableHtml += `</tbody></table>`;
+                appsDiv.innerHTML = tableHtml;
+                return true;
+            } else if (resp.status === 401) {
+                showResult('Неверный логин или пароль', true);
+            }
+        } catch(e) {
+            showResult('Ошибка загрузки данных', true);
+        }
+        return false;
+    }
+
+    loginBtn.onclick = async () => {
+        const login = adminLogin.value.trim();
+        const password = adminPassword.value.trim();
+        if (!login || !password) {
+            showResult('Введите логин и пароль', true);
+            return;
+        }
+        const ok = await loadAdminData();
+        if (ok) {
+            adminLogin.disabled = true;
+            adminPassword.disabled = true;
+            loginBtn.style.display = 'none';
+            logoutBtn.style.display = 'inline-block';
+            adminPanel.style.display = 'block';
+            showResult('Вход выполнен');
+        }
+    };
+
+    logoutBtn.onclick = () => {
+        adminLogin.disabled = false;
+        adminPassword.disabled = false;
+        adminLogin.value = '';
+        adminPassword.value = '';
+        loginBtn.style.display = 'inline-block';
+        logoutBtn.style.display = 'none';
+        adminPanel.style.display = 'none';
+        showResult('Выход выполнен');
+    };
+</script>
+</body>
+</html>
